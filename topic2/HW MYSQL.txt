@@ -1,0 +1,26 @@
+СУБД установлена ранее
+rm .my.cnf
+nano .my.cnf
+\*[client]
+user=root
+password=----
+*/
+mysql
+CREATE DATABASE IF NOT EXISTS example;
+SHOW DATABASES;
+USE example;
+CREATE TABLE IF NOT EXISTS users (id SERIAL, name VARCHAR(40);
+DESCRIBE users;
+INSERT INTO users VALUES(NULL, 'dgsdghndf'), (NULL, 'sdgsgf', (NULL, 'ghdf45f'));
+SELECT * FROM users;
+CREATE DATABASE IF NOT EXISTS sample;
+\q
+mysqldump example > data_dump.sql
+head -n 5 data_dump.sql
+mysql sample < data_dump.sql
+mysql
+USE sample;
+SHOW TABLES;
+SELECT * FROM users;
+mysqldump mysql help_keyword --where="TRUE LIMIT 100" > help_keyword_homework.sql
+
