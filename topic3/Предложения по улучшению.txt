@@ -1,0 +1,36 @@
+Атрибуты профиля gender, country и city вынести в отдельные таблицы (отношения, если я правильно понял терминологию).
+При этом добавление атрибута country в таблице городов, как я думаю, позволит сразу по городу, выбранному пользователем определить страну,
+либо выдать пользователю список городов с одинаковыми названиями, но в разных странах. (я подумал, что это должно работать именно так, но могу
+ошибаться). 
+Выделение гендеров больше дань моде, т.к. велика вероятность их количественного увеличения и негатива со стороны пользователей 
+из-за отсутствия того или иного гендера. Других идей, к сожалению, нет. 
+
+Ниже представлен код для составления новых таблиц. В прикрепленных файлах так же присутствуют сгенерированные данный как для базового БД,
+так и для улучшенной БД. 
+
+
+
+-- Таблица гендеров
+create table genders (
+  id INT unsigned not null auto_increment primary key COMMENT "Идентификатор строки",
+  name VARCHAR(130) not null unique COMMENT "Название гендера",
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT "Время создания строки",  
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT "Время обновления строки" 
+) COMMENT "Статусы дружбы";
+
+-- Таблица городов
+create table cities (
+  id INT unsigned not null auto_increment primary key COMMENT "Идентификатор строки",
+  name VARCHAR(150) not null COMMENT "Название города",
+  country_id INT unsigned not NULL COMMENT "Ссылка на страну",
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT "Время создания строки",  
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT "Время обновления строки"
+) COMMENT "Города";
+
+-- Таблица стран
+create table countries (
+  id INT unsigned not null auto_increment primary key COMMENT "Идентификатор строки",
+  name VARCHAR(150) not null unique COMMENT "Название страны",
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT "Время создания строки",  
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT "Время обновления строки"
+) COMMENT "Страны";
