@@ -1,0 +1,88 @@
+select * from likes;
+select * from genders;
+select * from profiles;
+
+-- Получаем наименование гендера для таблицы профилей
+select 
+  (select genders.name 
+  from genders 
+  where genders.id = profiles.gender_id) as gender
+from profiles;
+
+-- Получаем gender_id пользователя для таблицы лайков
+select 
+  (select profiles.gender_id 
+  from profiles 
+  where profiles.user_id = likes.user_id) as gender
+from likes;
+
+-- Определяем какой пол больше поставил лайков
+select 
+  (select genders.name
+  from genders 
+  where genders.id = 
+    (select profiles.gender_id 
+    from profiles 
+    where profiles.user_id = likes.user_id
+    )
+  ) as gender,
+  count(*) as total 
+from likes
+group by gender
+order by total desc
+limit 1;
+
+
+
+desc media;
+select * from posts;
+
+-- Количество активностей пользователей
+select 
+  id,
+  concat(users.first_name, ' ', users.last_name) as name, 
+  (select 
+    count(*) 
+    from messages 
+    where messages.from_user_id = users.id
+  ) as total_messages,
+  (select 
+    count(*) 
+    from posts
+    where posts.user_id = users.id
+  ) as total_posts,
+  (select 
+    count(*) 
+    from media
+    where media.user_id = users.id
+  ) as total_media,
+  (select 
+    count(*) 
+    from likes 
+    where likes.user_id = users.id
+  ) as total_likes
+from users
+order by id;
+
+desc users;
+desc profiles;
+
+-- Определяем 10 самых молодых пользователей площадки
+select
+  id,
+  concat(users.first_name, ' ', users.last_name) as name, 
+  (select
+    profiles.birthday 
+    from profiles
+    where user_id = users.id
+  ) as birthday,
+  (select
+    floor((to_days(now()) - to_days(birthday))/365.25)
+  ) as age,
+  (select
+    count(*)
+    from likes
+    where likes.user_id = users.id
+  ) as total_likes
+from users
+order by birthday desc limit 10;
