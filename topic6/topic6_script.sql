@@ -196,7 +196,7 @@ select
   (select
     count(*)
     from likes
-    where likes.user_id = users.id
+    where likes.target_id = users.id and likes.target_type = 'users'
   ) as total_likes
 from users
 order by birthday desc limit 10;
