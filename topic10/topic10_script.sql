@@ -1,6 +1,6 @@
 show tables;
 select * from communities_users;
-show index from profiles;
+show index from messages;
 
 -- можем ли мы удалять индексы, что создаются автоматически по внешнему ключу? 
 
@@ -46,9 +46,9 @@ select distinct
 	last_value(concat_ws(' ', users.first_name, users.last_name)) over (partition by communities.name order by profiles.birthday 
 	range between unbounded preceding and unbounded following) as youngest_user,
 	count(communities_users.user_id) over w_communities_name as users_in_community,
-	count(users.id) over() as total_users,
+	(select count(users.id) from users) as total_users,
 	count(communities_users.user_id) over w_communities_name / 
-		count(users.id) over() * 100 as '%_of_total_users_in_community'
+		(select count(users.id) from users) * 100 as '%_of_total_users_in_community'
 from communities
 	left join communities_users 
 		on communities.id = communities_users.community_id
