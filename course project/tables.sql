@@ -71,7 +71,6 @@ create table if not exists citizenships (
 	updated_at datetime default current_timestamp on update current_timestamp comment "Время обновления строки"
 ) comment "Гражданство";*/
 
-
 -- Таблица паспортов
 create table if not exists passports (
 	id int unsigned not null comment "Идентификатор паспорта",
@@ -158,7 +157,7 @@ create table if not exists localities (
 create table if not exists agreements (
 	id serial primary key comment "Идентификатор договора",
 	client_id int unsigned not null comment "Ссылка на клиента",
-	product_id tinyint unsigned not null comment "Ссылка на продукт",
+	product_id smallint unsigned not null comment "Ссылка на продукт",
 	is_active bool default 1 comment "Признак действительности",
 	created_at datetime default current_timestamp comment "Время создания строки", 
 	updated_at datetime default current_timestamp on update current_timestamp comment "Время обновления строки"
@@ -237,16 +236,4 @@ create table if not exists test (
 	created_at datetime default current_timestamp comment "Время создания строки", 
 	updated_at datetime default current_timestamp on update current_timestamp comment "Время обновления строки"
 ) comment "Тестовая";
-drop table test;
-insert into test(id, name) values
-	(get_next_id(), 'dgsg'),
-	(2, 'afa'),
-	(3, 'asfa');
 
- select * from test;
- insert into test(id, name) values
-	(get_next_id(), 'h'),
-	(9, 'e'),
-	(10, 'l');
-
-select count(*) from passports + 1 ;

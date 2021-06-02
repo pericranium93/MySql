@@ -1,8 +1,4 @@
-ALTER TABLE profiles
-  ADD CONSTRAINT profiles_user_id_fk 
-    FOREIGN KEY (user_id) REFERENCES users(id)
-      ON DELETE CASCADE;
-
+-- Создаем foreign keys
 alter table users
 	add constraint users_department_id_fk
 		foreign key (department_id) references departments(id),
@@ -12,10 +8,6 @@ alter table users
 alter table clients_info
 	add constraint clients_info_client_id_fk
 		foreign key (client_id) references clients(id),
-	add constraint clients_info_citizenship_id_fk
-		foreign key (citizenship_id) references citizenships(id),
-	add constraint clients_info_photo_id_fk
-		foreign key (photo_id) references photos(id),
 	add constraint clients_info_passport_id_fk
 		foreign key (passport_id) references passports(id),
 	add constraint clients_info_registration_address_id_fk
@@ -31,7 +23,7 @@ alter table passports
 	add constraint passports_passport_photo_id_fk
 		foreign key (passport_photo_id) references photos(id),
 	add constraint passports_registration_photo_id_fk
-		foreign key (registration_photo_id) references dphotos(id);
+		foreign key (registration_photo_id) references photos(id);
 
 alter table adresses 
 	add constraint adresses_postcode_id_fk
@@ -50,14 +42,12 @@ alter table localities
 alter table agreements
 	add constraint agreements_client_id_fk
 		foreign key (client_id) references clients(id),
-	add constraint agreements_product_id_fk
+	add constraint agreements_product_id_fk				
 		foreign key (product_id) references products(id);
 
 alter table agreements_info
 	add constraint agreements_info_agreement_id_fk
 		foreign key (agreement_id) references agreements(id),
-	add constraint agreements_info_department_id_fk
-		foreign key (product_id) references departments(id),
 	add constraint agreements_info_user_id_fk
 		foreign key (user_id) references users(id);
 
@@ -66,11 +56,9 @@ alter table transactions
 		foreign key (account_id) references accounts(id);
 
 alter table accounts
-	add constraint accounts_account_id_fk
-		foreign key (client_id) references clients(id);
+	add constraint accounts_agreement_id_fk
+		foreign key (agreement_id) references agreements(id);
 
 alter table photos
 	add constraint photos_client_id_fk
 		foreign key (client_id) references clients(id);
-
-
